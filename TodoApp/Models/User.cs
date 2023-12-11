@@ -19,6 +19,7 @@ namespace TodoApp.Models
         [Required]
         public string Password { get; set; } = string.Empty;
 
-
+        [Required]
+        public ICollection<Todo> Todos { get; set; } = new List<Todo>();
     }
 }
