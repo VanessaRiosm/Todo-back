@@ -25,7 +25,14 @@ namespace TodoApp.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Todo>>> GetTodos()
         {
+            try
+            {
             return await _context.Todos.ToListAsync();
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         // GET: api/Todos/5
@@ -34,12 +41,20 @@ namespace TodoApp.Controllers
         {
             var todo = await _context.Todos.FindAsync(id);
 
-            if (todo == null)
+            try
             {
-                return NotFound();
-            }
 
-            return todo;
+                if (todo == null)
+                {
+                    return NotFound();
+                }
+
+                return todo;
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         // PUT: api/Todos/5
@@ -78,10 +93,17 @@ namespace TodoApp.Controllers
         [HttpPost]
         public async Task<ActionResult<Todo>> PostTodo(Todo todo)
         {
-            _context.Todos.Add(todo);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Todos.Add(todo);
+                await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetTodo", new { id = todo.Id }, todo);
+                return CreatedAtAction("GetTodo", new { id = todo.Id }, todo);
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         // DELETE: api/Todos/5
